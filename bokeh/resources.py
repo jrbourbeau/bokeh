@@ -126,6 +126,9 @@ def get_sri_hashes_for_version(version):
     Returns:
         dict
 
+    Raises:
+        KeyError: if the specified version does not exist
+
     Example:
 
         The returned dict for a single version will map filenames for that

@@ -44,6 +44,9 @@ LOG_LEVELS = ["trace", "debug", "info", "warn", "error", "fatal"]
 
 DEFAULT_LOG_JS_RAW = 'Bokeh.set_log_level("info");'
 
+def teardown_module():
+    Model._clear_extensions()
+
 # -----------------------------------------------------------------------------
 # General API
 # -----------------------------------------------------------------------------
@@ -87,6 +90,9 @@ class TestSRIHashes(object):
             h = resources.get_sri_hashes_for_version(key)
             assert h == all_hashes[key]
 
+    def test_get_sri_hashes_for_version_bad(self) -> None:
+        with pytest.raises(KeyError):
+            resources.get_sri_hashes_for_version("junk")
 
 ## Test JSResources
 
@@ -382,6 +388,7 @@ def test_external_js_and_css_resource_ordering() -> None:
     # The files should be in the order defined by the lists in CustomModel2 and CustomModel3
     assert r.css_files.index("external_css_3") > r.css_files.index("external_css_2")
     assert r.js_files.index("external_js_3") > r.js_files.index("external_js_2")
+
 
 
 # -----------------------------------------------------------------------------
